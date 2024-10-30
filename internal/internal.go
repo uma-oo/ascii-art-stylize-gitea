@@ -6,7 +6,7 @@ import (
 
 func Ascii(text, banner string) (asciiArt string, status int) {
 	if UserInputChecker(text) != "" {
-		return "", 200
+		return "", 400
 	}
 
 	bannerMap, status := MapBuilder(banner)

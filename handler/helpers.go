@@ -51,7 +51,7 @@ func extractFormData(r *http.Request) int {
 
 func validateFormData() (status int) {
 	Pagedata.FormError = internal.UserInputChecker(Pagedata.Text)
-	if !IsBanner(Pagedata.Banner) {
+	if !IsBanner(Pagedata.Banner) || Pagedata.FormError != "" {
 		return 400
 	}
 	return 200
@@ -66,6 +66,10 @@ func handleStatusCode(w http.ResponseWriter, status int) {
 	switch status {
 	case 200:
 		renderTemplate(w, "index.html", Pagedata)
+	case 400:
+		if Pagedata.FormError != "" {
+			renderTemplate(w, "index.html", Pagedata)
+		}
 	default:
 		renderTemplate(w, "errorPage.html", status)
 	}
