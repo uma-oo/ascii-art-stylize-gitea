@@ -62,6 +62,9 @@ func HandleAsciiArt(w http.ResponseWriter, r *http.Request) {
 
 
 func HandleAssets(w http.ResponseWriter, r *http.Request) {
+	if !requestMethodChecker(w, r, http.MethodGet) {
+		return
+	} 
 	if !strings.HasPrefix(r.URL.Path, "/assets") {
 		handleStatusCode(w, http.StatusNotFound)
 		return
