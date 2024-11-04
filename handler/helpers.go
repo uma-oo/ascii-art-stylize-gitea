@@ -69,8 +69,23 @@ func handleStatusCode(w http.ResponseWriter, status int) {
 	case 400:
 		if Pagedata.FormError != "" {
 			renderTemplate(w, "index.html", Pagedata)
+		} else {
+			renderTemplate(w, "errorPage.html", status)
 		}
 	default:
 		renderTemplate(w, "errorPage.html", status)
 	}
 }
+
+// function written just to understand how the os.Stat works
+
+// func CheckPaths(path string) {
+// 	file_info, err := os.Stat(path)
+// 	if err != nil {
+// 		fmt.Println(err)
+// 	}
+
+// 	fmt.Println(file_info.IsDir())
+// 	fmt.Println(file_info.Name())
+
+// }

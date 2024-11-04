@@ -1,7 +1,10 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
+	"os"
+	"strings"
 
 	"asciiWeb/internal"
 )
@@ -30,6 +33,7 @@ func HandleMainPage(w http.ResponseWriter, r *http.Request) {
 
 // handler for the path "/ascii-art
 func HandleAsciiArt(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.URL.Path)
 	if !requestMethodChecker(w, r, http.MethodPost) {
 		return
 	}
@@ -53,4 +57,25 @@ func HandleAsciiArt(w http.ResponseWriter, r *http.Request) {
 	Pagedata.AsciiArt = asciiArt
 	renderTemplate(w, "index.html", Pagedata)
 	Pagedata = Data{}
+}
+
+
+
+func HandleAssets(w http.ResponseWriter, r *http.Request) {
+	if !strings.HasPrefix(r.URL.Path, "/assets") {
+		handleStatusCode(w, http.StatusNotFound)
+		return
+	} else {
+		file_info, err := os.Stat(r.URL.Path[1:])
+		if err != nil {
+			handleStatusCode(w, http.StatusNotFound)
+			return
+		} else 
+		if file_info.IsDir() {
+			handleStatusCode(w, http.StatusForbidden)
+			return 
+		} else {
+			http.ServeFile(w, r, r.URL.Path[1:])
+		}
+	}
 }

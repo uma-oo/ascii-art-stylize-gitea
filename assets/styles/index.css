@@ -47,6 +47,12 @@ body {
 
 }
 
+.form-group>.buttons>button[type=reset]{
+    color: #424242;
+    border: 2px dotted #424242;
+    background-color: transparent;
+}
+
 button:hover {
     background-color:#48CFCB;
     color: red;
